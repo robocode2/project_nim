@@ -117,8 +117,8 @@ class NimAI():
     def best_future_reward(self, state):
         max_q = float('-inf')
         for state_in_q, action in self.q.keys():
-            if state_in_q == state: 
-                q_val = self.q.get((state_in_q, action), 0) 
+            if state_in_q == tuple(state): 
+                q_val = self.get_q_value(state_in_q, action) 
                 if q_val > max_q:
                     max_q = q_val
         if max_q == float('-inf'):
@@ -131,7 +131,6 @@ class NimAI():
         available_actions = tuple(Nim.available_actions(state))
         for action in available_actions:
                 q_val = self.get_q_value(state, action) 
-                print((state, action), 'q_val ', q_val )
                 if q_val > max_q:
                     max_q = q_val
                     max_tuple = action
@@ -215,7 +214,7 @@ def train(n):
     return player
 
 
-def play(ai, human_player=None):
+def play(ai, human_player=0):
     """
     Play human game against the AI.
     `human_player` can be set to 0 or 1 to specify whether
